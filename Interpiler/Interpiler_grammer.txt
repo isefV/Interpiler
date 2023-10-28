@@ -1,0 +1,81 @@
+KEYWORDS:
+	loop , if , elf , else , true , false , to , by ,
+	rutin , ret , stop , next , input , output
+	
+OPERATORS:
+	^ , * , / , % , - , + , = , ! , == , != , > , < ,
+	>= , <= , | , & , : , ( , ) , , , " , ' , ^= , *= ,
+	/= , %= , -= , += , #= , ? , . , [ , ]
+
+TYPES:
+	NOT , NUM , STR , BOOL , OBJ , FUNC , ARR
+
+GRAMMERS:
+
+		-- KEYWORDS : loop , to , by --
+		-- Type 1 --
+	loop ( EXPR ) :
+		body
+
+		-- Type 2 --
+	loop ( IDENTIFIER : ( IDENTIFIER | LITERAL ) to ( IDENTIFIER | LITERAL ) ) :
+		body
+
+		-- Type 3 --
+	IDENTIFIER = ( IDENTIFIER | LITERAL )
+	loop ( IDENTIFIER  to (IDENTIFIER | LITERAL ) ) :
+		body
+
+		-- Type 4 --
+	loop ( IDENTIFIER : ( IDENTIFIER | LITERAL ) to ( IDENTIFIER | LITERAL ) by OPERATORS ( IDENTIFIER | LITERAL ) ) :
+		body
+
+		-- Type 5 --
+	IDENTIFIER = ( IDENTIFIER | LITERAL )
+	loop ( IDENTIFIER  to (IDENTIFIER | LITERAL ) by OPERATORS ( IDENTIFIER | LITERAL ) ) :
+		body
+
+		-------------------
+		-- KEYWORDS : if , elf , else --
+	if ( EXPR ) :
+		body
+
+	elf ( EXPR ) :
+		body
+
+	else :
+		body
+
+		-------------------
+		-- KEYWORDS : rutin , ret --
+	rutin rutin_name ( *args ) :
+		body
+		ret *args
+
+		-------------------
+		-- KEYWORDS : input , output --
+		-- Type 1 --
+	input ( EXPR ) 
+	output ( EXPR )
+
+		-- Type 2 --
+	input ( (IDENTIFIER | LITERAL ) ) 
+	output ( (IDENTIFIER | LITERAL ) ) 
+
+		-------------------
+		-- KEYWORDS : stop , next --
+		-- Type 1 --
+	loop ( EXPR ):
+		body
+		stop
+
+		-- Type 2 --
+	loop ( EXPR ):
+		body
+		next
+
+		-------------------
+		-- ARR --
+	IDENTIFIER #= (IDENTIFIER | LITERAL ) , ... , (IDENTIFIER | LITERAL )
+
+	IDENTIFIER [ index ]
