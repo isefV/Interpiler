@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{e2902b7f-1124-437d-9749-ade3afd610fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Files">
+      <UniqueIdentifier>{2d471454-b57f-4dc5-a0f0-ee5680a612b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tables">
+      <UniqueIdentifier>{8811235e-e858-4458-9c6e-fe3ea728bede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controler">
+      <UniqueIdentifier>{3e21a1b5-ceb1-48cc-ad36-dbee152ed485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Translator Machin">
+      <UniqueIdentifier>{784fcf09-468c-45f3-8d21-590ad39381d4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error_handling.cpp">
+      <Filter>Source Files\Controler</Filter>
+    </ClCompile>
+    <ClCompile Include="input_control_machin.cpp">
+      <Filter>Source Files\Controler</Filter>
+    </ClCompile>
+    <ClCompile Include="utility.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="lexical.cpp">
+      <Filter>Source Files\Translator Machin</Filter>
+    </ClCompile>
+    <ClCompile Include="syntactic.cpp">
+      <Filter>Source Files\Translator Machin</Filter>
+    </ClCompile>
+    <ClCompile Include="object_table.cpp">
+      <Filter>Source Files\Tables</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="error_handling.h">
+      <Filter>Source Files\Controler</Filter>
+    </ClInclude>
+    <ClInclude Include="input_control_machin.h">
+      <Filter>Source Files\Controler</Filter>
+    </ClInclude>
+    <ClInclude Include="expression.h">
+      <Filter>Source Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility_info.h">
+      <Filter>Source Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Source Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="lexical.h">
+      <Filter>Source Files\Translator Machin</Filter>
+    </ClInclude>
+    <ClInclude Include="syntactic.h">
+      <Filter>Source Files\Translator Machin</Filter>
+    </ClInclude>
+    <ClInclude Include="object_table.h">
+      <Filter>Source Files\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TEST_FILE.txt">
+      <Filter>Source Files\Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
