@@ -18,29 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\FIL\FIL\error_handling.cpp" />
-    <ClCompile Include="..\..\FIL\FIL\input_control_machin.cpp" />
-    <ClCompile Include="..\..\FIL\FIL\lexical.cpp" />
-    <ClCompile Include="..\..\FIL\FIL\main.cpp" />
-    <ClCompile Include="..\..\FIL\FIL\object_table.cpp" />
-    <ClCompile Include="..\..\FIL\FIL\syntactic.cpp" />
-    <ClCompile Include="..\..\FIL\FIL\utility.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\FIL\FIL\error_handling.h" />
-    <ClInclude Include="..\..\FIL\FIL\expression.h" />
-    <ClInclude Include="..\..\FIL\FIL\input_control_machin.h" />
-    <ClInclude Include="..\..\FIL\FIL\lexical.h" />
-    <ClInclude Include="..\..\FIL\FIL\main.h" />
-    <ClInclude Include="..\..\FIL\FIL\object_table.h" />
-    <ClInclude Include="..\..\FIL\FIL\syntactic.h" />
-    <ClInclude Include="..\..\FIL\FIL\utility.h" />
-    <ClInclude Include="..\..\FIL\FIL\utility_info.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\FIL\FIL\TEST_FILE.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -161,6 +138,36 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\FIL\FIL\error_handling.h" />
+    <ClInclude Include="..\..\FIL\FIL\expression.h" />
+    <ClInclude Include="..\..\FIL\FIL\input_control_machin.h" />
+    <ClInclude Include="..\..\FIL\FIL\lexical.h" />
+    <ClInclude Include="..\..\FIL\FIL\main.h" />
+    <ClInclude Include="..\..\FIL\FIL\object_table.h" />
+    <ClInclude Include="..\..\FIL\FIL\syntactic.h" />
+    <ClInclude Include="..\..\FIL\FIL\utility.h" />
+    <ClInclude Include="..\..\FIL\FIL\utility_info.h" />
+    <ClInclude Include="asm_handler.h" />
+    <ClInclude Include="compiler.h" />
+    <ClInclude Include="error_handling.h" />
+    <ClInclude Include="interpreter.h" />
+    <ClInclude Include="lexical.h" />
+    <ClInclude Include="syntax.h" />
+    <ClInclude Include="utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\FIL\FIL\error_handling.cpp" />
+    <ClCompile Include="..\..\FIL\FIL\input_control_machin.cpp" />
+    <ClCompile Include="..\..\FIL\FIL\lexical.cpp" />
+    <ClCompile Include="..\..\FIL\FIL\main.cpp" />
+    <ClCompile Include="..\..\FIL\FIL\object_table.cpp" />
+    <ClCompile Include="..\..\FIL\FIL\syntactic.cpp" />
+    <ClCompile Include="..\..\FIL\FIL\utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\FIL\FIL\TEST_FILE.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
