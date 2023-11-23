@@ -148,6 +148,13 @@
     <ClInclude Include="..\..\FIL\FIL\syntactic.h" />
     <ClInclude Include="..\..\FIL\FIL\utility.h" />
     <ClInclude Include="..\..\FIL\FIL\utility_info.h" />
+    <ClInclude Include="asm_handler.h" />
+    <ClInclude Include="compiler.h" />
+    <ClInclude Include="error_handling.h" />
+    <ClInclude Include="interpreter.h" />
+    <ClInclude Include="lexical.h" />
+    <ClInclude Include="syntax.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\FIL\FIL\error_handling.cpp" />
