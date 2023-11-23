@@ -24,13 +24,7 @@
     <ClInclude Include="..\..\FIL\FIL\syntactic.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\FIL\FIL\utility.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\FIL\FIL\utility_info.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FIL\FIL\error_handling.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\FIL\FIL\expression.h">
@@ -39,7 +33,13 @@
     <ClInclude Include="..\..\FIL\FIL\input_control_machin.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\FIL\FIL\lexical.h">
+    <ClInclude Include="error_handling.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lexical.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -139,15 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\FIL\FIL\error_handling.h" />
     <ClInclude Include="..\..\FIL\FIL\expression.h" />
     <ClInclude Include="..\..\FIL\FIL\input_control_machin.h" />
-    <ClInclude Include="..\..\FIL\FIL\lexical.h" />
     <ClInclude Include="..\..\FIL\FIL\main.h" />
     <ClInclude Include="..\..\FIL\FIL\object_table.h" />
     <ClInclude Include="..\..\FIL\FIL\syntactic.h" />
-    <ClInclude Include="..\..\FIL\FIL\utility.h" />
     <ClInclude Include="..\..\FIL\FIL\utility_info.h" />
+    <ClInclude Include="error_handling.h" />
+    <ClInclude Include="lexical.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\FIL\FIL\error_handling.cpp" />
