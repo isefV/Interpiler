@@ -15,52 +15,81 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="asm_handler.cpp">
+    <ClInclude Include="asm_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="error_handling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interpreter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lexical.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="syntax.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\object_table.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\syntactic.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\utility.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\utility_info.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\error_handling.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\expression.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\input_control_machin.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FIL\FIL\lexical.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\FIL\FIL\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utility.cpp">
+    <ClCompile Include="..\..\FIL\FIL\object_table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="syntax.cpp">
+    <ClCompile Include="..\..\FIL\FIL\syntactic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\..\FIL\FIL\utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="compiler.cpp">
+    <ClCompile Include="..\..\FIL\FIL\error_handling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="error_handling.cpp">
+    <ClCompile Include="..\..\FIL\FIL\input_control_machin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lexical.cpp">
+    <ClCompile Include="..\..\FIL\FIL\lexical.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="asm_handler.h">
+    <Text Include="..\..\FIL\FIL\TEST_FILE.txt">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="utility.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="syntax.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="compiler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="error_handling.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="interpreter.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lexical.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+    </Text>
   </ItemGroup>
 </Project>

@@ -1,15 +1,24 @@
 #pragma once
+#include"utility_info.h"
+#include"utility.h"
+#include"object_table.h"
 
-#include "utility.h"
-#include"error_handling.h"
 
-void lex_purification(str* cmd);
+class LEXICAL_M {
+	STRING* _command;
+	VEC<STRING> _decomposed_command;
+	VEC<int> _tokens;
 
-void lex_tokenization(str* cmd);
+	// LEXICAL SECTION
+	int line_level_detector();
+	void purification();
+	void tokenization();
+	int token_detector(STRING* token);
+	int keyword_detector(STRING* token);
+	int operator_detector(STRING* token);
+	int object_detector(STRING* token);
+	int set_object(STRING* token, int type);
 
-int lex_token_code_detector(str token, bool is_text);
-int lex_keyword_detector(str token);
-int lex_operator_detector(str token);
-int lex_object_detector(str token, bool is_text);
-int lex_id_object_encoder(str token);
-int lex_set_object(str token, int type, bool is_temp = true);
+public:
+	VEC<int>* run(STRING* cmd);
+};

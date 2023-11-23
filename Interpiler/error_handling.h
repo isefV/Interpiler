@@ -1,5 +1,19 @@
 #pragma once
-#include<iostream>
+#include"utility_info.h"
 
-void rise_err(int err_type, int line, std::string token);
-void stop_program_err();
+// ERROR HANDLER OBJECT
+class ERROR_H {
+	int _line;
+	STRING _token;
+public:
+	ERROR_H() {
+		_line = 0;
+		_token = "";
+	}
+	void rise_err(int err_type);
+	void stop_program_err();
+	void set_line(int line_number);
+	void set_token(STRING token);
+};
+
+extern ERROR_H __errors_handler;
