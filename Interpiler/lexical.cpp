@@ -124,8 +124,10 @@ void LEXICAL_M::purification() {
 	}
 
 	// @Debug : test line
-	for (auto iter = _decomposed_command.begin(); iter != _decomposed_command.end(); iter++) {
-		PRINT << *iter << "  ";
+	if (debug_mode) {
+		for (auto iter = _decomposed_command.begin(); iter != _decomposed_command.end(); iter++) {
+			PRINT << *iter << "  ";
+		}
 	}
 
 }
@@ -147,18 +149,20 @@ void LEXICAL_M::tokenization() {
 	}
 
 	// @Debug : test line
-	PRINT << "\nTokens:\n";
-	for (auto item = _tokens.begin(); item != _tokens.end(); item++)
-		PRINT << '\t' << std::hex << item->first << '\t' << item->second << '\n';
-	PRINT << '\n';
+	if (debug_mode) {
+		PRINT << "\nTokens:\n";
+		for (auto item = _tokens.begin(); item != _tokens.end(); item++)
+			PRINT << '\t' << std::hex << item->first << '\t' << item->second << '\n';
+		PRINT << '\n';
 
-	PRINT << "\Objects:\n";
-	for (auto item = __objects_table.begin(); item != __objects_table.end(); item++)
-		PRINT << '\t' << std::hex << item->first << '\t' << item->second->_value << '\t' << item->second->_is_temp << '\n';
-	PRINT << '\n';
+		PRINT << "\Objects:\n";
+		for (auto item = __objects_table.begin(); item != __objects_table.end(); item++)
+			PRINT << '\t' << std::hex << item->first << '\t' << item->second->_value << '\t' << item->second->_is_temp << '\n';
+		PRINT << '\n';
 
-	PRINT << std::dec << "\nToken size : " << _tokens.size()
-		<< "\t\tObject size : " << __objects_table.size() << '\n';
+		PRINT << std::dec << "\nToken size : " << _tokens.size()
+			<< "\t\tObject size : " << __objects_table.size() << '\n';
+	}
 
 }
 
@@ -366,5 +370,6 @@ int LEXICAL_M::set_object(STRING* token, int type) {
 MAP<int,int>* LEXICAL_M::run(STRING* cmd) {
 	_command = cmd;
 	tokenization();
+	_decomposed_command.clear();
 	return &_tokens;
 }

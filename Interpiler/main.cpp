@@ -6,8 +6,11 @@ int main() {
 	__command = __input_controler.read_line_file();
 
 	// @Debug : test line
-	PRINT << __command <<'\n';
+	if(debug_mode)
+		PRINT << __command <<'\n';
 
-	__syntaxer.run(__lexer.run(&__command));
+	MAP<int,int>* tokens = __lexer.run(&__command);
+	VEC<EXPRESSION*>* exp = __syntaxer.run(tokens);
+	__semanticer.run(tokens, exp);
 	return 0;
 }

@@ -12,6 +12,7 @@
 // EASIER SHORTCUTS
 #define STRING								std::string
 #define FSTREAM								std::fstream
+#define IOS									std::ios
 #define GET									std::cin
 #define PRINT								std::cout
 #define VEC									std::vector
@@ -138,9 +139,9 @@
 
 #define INSTRUCTION_ADD						0x201
 #define INSTRUCTION_SUB						0x202
-#define INSTRUCTION_MUL						0x203
-#define INSTRUCTION_DIV						0x204
-#define INSTRUCTION_MOD						0x205
+#define INSTRUCTION_MOD						0x203
+#define INSTRUCTION_MUL						0x204
+#define INSTRUCTION_DIV						0x205
 #define INSTRUCTION_POW						0x206
 
 #define INSTRUCTION_OR						0x301
@@ -155,8 +156,43 @@
 #define INSTRUCTION_END						0x000
 
 
+//SYNTAX CONSTANT
+#define PRIO_NO -1
+#define PRIO_LEAST 0
+#define PRIO_1 1
+#define PRIO_2 2
+#define PRIO_3 3
+#define PRIO_4 4
+#define PRIO_5 5
+#define PRIO_6 6
+#define PRIO_7 7
+#define PRIO_8 8
+#define PRIO_9 9
+#define PRIO_10 10
+#define PRIO_11 11
+#define PRIO_12 12
+#define PRIO_13 13
+#define PRIO_14 14
+#define PRIO_15 15
+#define PRIO_MOST 16
+
+#define MODE_OFF 0
+#define MODE_UNARY 1
+#define MODE_BINARY 2
+#define MODE_ARR 3
+#define MODE_FUNC 4
+#define MODE_ARGS 5
+#define MODE_KEYWORD 6
+
+#define ACCEPT_ACTION 1
+#define ACCEPT_NO_ACTION 0
+#define REFUSE -1
+
 
 #define INC(number,value) number += number + value
 #define DEC(number,value) number -= value
 #define LESS_THAN_ZERO(number,value) if (number - value < 0) __errors_handler.rise_err(ERR_SYNTAX)
 #define TOKEN_IS_KEYWORD(code,type)	(code & (UPCODE + MIDCODE)) == COMPONENTS_KEYWORDS + type
+
+
+extern bool debug_mode;

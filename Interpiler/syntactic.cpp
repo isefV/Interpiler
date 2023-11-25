@@ -62,13 +62,15 @@ void SYNTACTIC_M::parse(MAP<int,int>* token) {
 	}
 
 	// @Debug: test line
-	PRINT << "\nTokens:\n";
-	for (auto item = token->begin(); item != token->end(); item++)
-		PRINT << '\t' << std::hex << item->first << '\t' << item->second << '\n';
-	PRINT << "\nExpression:\n";
-	for (auto item = _exp.begin(); item != _exp.end(); item++)
-		PRINT << '\t' << std::dec << (*item)->_id << '\t' << (*item)->_priority << '\t' << (*item)->_mode << '\t' << '\n';
-	PRINT << '\n';
+	if (debug_mode) {
+		PRINT << "\nTokens:\n";
+		for (auto item = token->begin(); item != token->end(); item++)
+			PRINT << '\t' << std::hex << item->first << '\t' << item->second << '\n';
+		PRINT << "\nExpression:\n";
+		for (auto item = _exp.begin(); item != _exp.end(); item++)
+			PRINT << '\t' << std::dec << (*item)->_id << '\t' << (*item)->_priority << '\t' << (*item)->_mode << '\t' << '\n';
+		PRINT << '\n';
+	}
 }
 
 int SYNTACTIC_M::syntaxer(int* code, int index, int token_size) {
@@ -348,6 +350,9 @@ int SYNTACTIC_M::parse_mode(int code) {
 		else if ((code & MIDCODE) == KYW_BY) {
 			return MODE_BINARY;
 		}
+		else if ((code & MIDCODE) == KYW_RUTIN) {
+			return MODE_FUNC;
+		}
 		return MODE_KEYWORD;
 	}
 
@@ -361,6 +366,8 @@ int SYNTACTIC_M::parse_mode(int code) {
 	else if (((code & (UPCODE + MIDCODE)) == (COMPONENTS_OPERATORS + OP_LOGICAL + OP_LOG_OPPOSITE))
 		|| ((code & (UPCODE + MIDCODE)) == (COMPONENTS_OPERATORS + OP_OTHER + OP_OTR_TYPE)))
 		return MODE_UNARY;
+	else if ((code & (UPCODE + MIDCODE)) == (COMPONENTS_OPERATORS + OP_ASSIGNMENT + OP_ASN_ARRASSI))
+		return MODE_ARR;
 	return MODE_BINARY;
 }
 

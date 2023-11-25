@@ -1,13 +1,13 @@
 ;num = 5
-if ((10  + 5)%2==0) :
-loop (!ro != true):
-	if (a[3] / 3 == 0 ) :;
-rutin pow(a,b,c):
-a #=  3 + 1, 0, 2, 6, 8
 x =  5 * ( 7 + 2) > 12
 		loop (x:5 to 10 by +1):
-c='hello world'
+	if (a[3] / 3 == 0 ) :;
 c='hello world 2 "asa" '
+a #=  3 + 1, 0, 2, 6, 8
+rutin pow(a,b,c):
+loop (!ro != true):
+if ((10  + 5)%2==0) :
+c='hello world'
 ;c='hello world'
 ;y = true
 

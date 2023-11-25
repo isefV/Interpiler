@@ -19,20 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bytecode_handling.cpp" />
     <ClCompile Include="error_handling.cpp" />
     <ClCompile Include="input_control_machin.cpp" />
     <ClCompile Include="lexical.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="semantic.cpp" />
     <ClCompile Include="syntactic.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bytecode_handling.h" />
     <ClInclude Include="error_handling.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="input_control_machin.h" />
     <ClInclude Include="lexical.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="semantic.h" />
     <ClInclude Include="syntactic.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="utility_info.h" />
