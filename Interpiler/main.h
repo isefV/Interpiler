@@ -22,3 +22,8 @@ BYTECODE_H __bytecode_handler;
 //OBJECT_T __objects_table;
 
 MAP<int,OBJECT*> __objects_table;
+
+bool _syntax_flag[] = { false	// LOOP EXP
+						, false	// LOOP TO
+						, false	// LOOP TO BY
+};

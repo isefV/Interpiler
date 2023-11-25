@@ -1,46 +1,110 @@
 #include "semantic.h"
 
 void SEMANTIC_M::parse(MAP<int, int>* tokens, VEC<EXPRESSION*>* exp) {
+
+
+
 	for (auto iter = exp->begin(); iter != exp->end(); iter++) {
 
 		int id = (*iter)->_id;
 		int mode = (*iter)->_mode;
 		auto item = tokens->find(id);
 
-		PRINT << mode << '\t' << std::hex << item->second << '\n';
+		if (debug_mode) {
+			PRINT << mode << '\t' << std::hex << item->second << '\n';
+		}
+
+		if (_syntax_flag[0] && !_syntax_flag[1]) {
+			// jump label
+		}
 
 		if (mode == MODE_UNARY) {
 			auto  right = item;
+			++right;
 
-			PRINT << "Right" << '\t' << std::hex << (++right)->second << '\n';
+			if (debug_mode) {
+				PRINT << "Right" << '\t' << std::hex << right->second << '\n';
+			}
 		}
 		else if (mode == MODE_BINARY) {
 			auto left = item , right = item;
+			--left;
+			++right;
 
-			PRINT << "Left" << '\t' << std::hex << (--left)->second << '\n';
-			PRINT << "Right" << '\t' << std::hex << (++right)->second << '\n';
+			if (debug_mode) {
+				PRINT << "Left" << '\t' << std::hex << left->second << '\n';
+				PRINT << "Right" << '\t' << std::hex << right->second << '\n';
+			}
 
 			parse_binary(item->second, left->second, right->second);
 		}
 		else if (mode == MODE_ARR) {
 			auto  right = item;
+			++right;
 
-			PRINT <<  "Right" << '\t' << std::hex << (++right)->second << '\n';
-		}
-		else if (mode == MODE_FUNC) {
-			auto  right = item;
+			if (debug_mode) {
+				PRINT << "Right" << '\t' << std::hex << right->second << '\n';
+			}
 
-			PRINT <<  "Right" << '\t' << std::hex << (++right)->second << '\n';
-		}
-		else if (mode == MODE_ARGS) {
-
+			parse_arr(item->second, right->second);
 		}
 		else if (mode == MODE_KEYWORD) {
-
+			parse_keyword(item->second);
 		}
+
+		//else if (mode == MODE_FUNC) {
+		//	auto  right = item;
+		//	++right;
+
+		//	if (debug_mode) {
+		//		PRINT << "Right" << '\t' << std::hex << right->second << '\n';
+		//	}
+		//}
+		//else if (mode == MODE_ARGS) {
+
+		//}
+
 
 		if (!stack_mode)
 			stack_mode = true;
+	}
+}
+
+void SEMANTIC_M::parse_unary(int op_code,int right_code) {
+	if ((op_code & UPCODE) == COMPONENTS_OPERATORS) {
+		if ((op_code & MIDCODE_LEFT) == OP_LOGICAL) {
+			if ((op_code & MIDCODE_RIGHT) == OP_LOG_OPPOSITE) {
+				if (!stack_mode) {
+					__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
+					__bytecode_handler.write_bytecode_handler(right_code);
+					__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
+				}
+				__bytecode_handler.write_bytecode_handler(INSTRUCTION_NOT);
+				__bytecode_handler.write_bytecode_handler(COMPONENTS_STACK);
+
+				if (debug_mode) {
+					if (!stack_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << right_code << '\n';
+					PRINT << "\t\t" << INSTRUCTION_NOT << ' ' << COMPONENTS_STACK << '\n';
+				}
+			}
+		}
+		else if ((op_code & MIDCODE_LEFT) == OP_OTHER) {
+			if ((op_code & MIDCODE_RIGHT) == OP_OTR_TYPE) {
+				if (!stack_mode) {
+					__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
+					__bytecode_handler.write_bytecode_handler(right_code);
+					__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
+				}
+				__bytecode_handler.write_bytecode_handler(INSTRUCTION_TYPE);
+				__bytecode_handler.write_bytecode_handler(COMPONENTS_STACK);
+
+				if (debug_mode) {
+					if (!stack_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << right_code << '\n';
+					PRINT << "\t\t" << INSTRUCTION_TYPE << ' ' << COMPONENTS_STACK << '\n';
+				}
+			}
+		}
+
 	}
 }
 
@@ -51,6 +115,7 @@ void SEMANTIC_M::parse_binary(int op_code, int left_code, int right_code) {
 				__bytecode_handler.write_bytecode_handler(INSTRUCTION_SET_VAR);
 				__bytecode_handler.write_bytecode_handler(left_code);
 				__bytecode_handler.write_bytecode_handler(right_code);
+				iter_code = left_code;
 				if(debug_mode) PRINT << "\t\t" << INSTRUCTION_SET_VAR << ' ' << left_code << ' ' << right_code << '\n' ;
 			}
 		}
@@ -135,21 +200,7 @@ void SEMANTIC_M::parse_binary(int op_code, int left_code, int right_code) {
 			}
 		}
 		else if ((op_code & MIDCODE_LEFT) == OP_LOGICAL) {
-			if ((op_code & MIDCODE_RIGHT) == OP_LOG_OPPOSITE) {
-				if (!stack_mode) {
-					__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
-					__bytecode_handler.write_bytecode_handler(right_code);
-					__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
-				}
-				__bytecode_handler.write_bytecode_handler(INSTRUCTION_NOT);
-				__bytecode_handler.write_bytecode_handler(COMPONENTS_STACK);
-
-				if (debug_mode) {
-					if (!stack_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << right_code << '\n';
-					PRINT << "\t\t" << INSTRUCTION_NOT << ' ' << COMPONENTS_STACK << '\n';
-				}
-			}
-			else if ((op_code & MIDCODE_RIGHT) == OP_LOG_GREATER_THAN) {
+			 if ((op_code & MIDCODE_RIGHT) == OP_LOG_GREATER_THAN) {
 				if (!stack_mode) {
 					__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
 					__bytecode_handler.write_bytecode_handler(left_code);
@@ -256,22 +307,6 @@ void SEMANTIC_M::parse_binary(int op_code, int left_code, int right_code) {
 				if (debug_mode) {
 					if (!stack_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << left_code << '\n';
 					PRINT << "\t\t" << INSTRUCTION_OR << ' ' << right_code << '\n';
-				}
-			}
-		}
-		else if ((op_code & MIDCODE_LEFT) == OP_OTHER) {
-			if ((op_code & MIDCODE_RIGHT) == OP_OTR_TYPE) {
-				if (!stack_mode) {
-					__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
-					__bytecode_handler.write_bytecode_handler(right_code);
-					__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
-				}
-				__bytecode_handler.write_bytecode_handler(INSTRUCTION_TYPE);
-				__bytecode_handler.write_bytecode_handler(COMPONENTS_STACK);
-				
-				if (debug_mode) {
-					if (!stack_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << right_code << '\n';
-					PRINT << "\t\t" << INSTRUCTION_TYPE << ' ' << COMPONENTS_STACK << '\n';
 				}
 			}
 		}
@@ -396,10 +431,88 @@ void SEMANTIC_M::parse_binary(int op_code, int left_code, int right_code) {
 			}
 		}
 	}
+	else if ((op_code & UPCODE) == COMPONENTS_KEYWORDS) {
+		if ((op_code & MIDCODE) == KYW_TO) {
+			// set label
+			int label = 0;
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_EQ);
+			__bytecode_handler.write_bytecode_handler(right_code);
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_JIF);
+			__bytecode_handler.write_bytecode_handler(label);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_EQ << ' ' << right_code << '\n' << "\t\t" << INSTRUCTION_JIF << ' ' << label << '\n';
+			loop_mode = true;
+		}
+		else if ((op_code & MIDCODE) == KYW_BY) {
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
+			__bytecode_handler.write_bytecode_handler(iter_code);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << iter_code << '\n';
+		}
+	}
 
 	__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
 }
 
+void SEMANTIC_M::parse_arr(int arr_code, int index_code) {
+	__bytecode_handler.write_bytecode_handler(INSTRUCTION_PUSH);
+	__bytecode_handler.write_bytecode_handler(index_code);
+	__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
+	__bytecode_handler.write_bytecode_handler(INSTRUCTION_GET_ARR);
+	__bytecode_handler.write_bytecode_handler(arr_code);
+	__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
+	if (debug_mode) PRINT << "\t\t" << INSTRUCTION_PUSH << ' ' << index_code << '\n' << "\t\t" << INSTRUCTION_GET_ARR << ' ' << arr_code << '\n';
+}
+
+void SEMANTIC_M::parse_keyword(int kyw_code) {
+	if ((kyw_code & UPCODE) == COMPONENTS_KEYWORDS) {
+		if ((kyw_code & MIDCODE) == KYW_LOOP) {
+
+			if (!loop_mode) {
+				__bytecode_handler.write_bytecode_handler(INSTRUCTION_SET_VAR);
+				/// 
+				if (debug_mode) PRINT << "\t\t" << INSTRUCTION_SET_VAR << ' ' << ' ' << ' ' << ' ' << '\n';
+			}
+			loop_mode = false;
+		}
+		else if ((kyw_code & MIDCODE) == KYW_IF) {
+			int label = 0;
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_JIF);
+			__bytecode_handler.write_bytecode_handler(label);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_JIF << ' ' << label << '\n';
+		}
+		else if ((kyw_code & MIDCODE) == KYW_ELF) {
+			int label = 0;
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_JIF);
+			__bytecode_handler.write_bytecode_handler(label);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_JIF << ' ' << label << '\n';
+		}
+		else if ((kyw_code & MIDCODE) == KYW_STOP) {
+			int label = 0;
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_JUMP);
+			__bytecode_handler.write_bytecode_handler(label);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_JUMP << ' ' << label << '\n';
+		}
+		else if ((kyw_code & MIDCODE) == KYW_NEXT) {
+			int label = 0;
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_JUMP);
+			__bytecode_handler.write_bytecode_handler(label);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_JUMP << ' ' << label << '\n';
+		}
+		else if ((kyw_code & MIDCODE) == KYW_OUTPUT) {
+			__bytecode_handler.write_bytecode_handler(INSTRUCTION_OUTPUT);
+			if (debug_mode) PRINT << "\t\t" << INSTRUCTION_OUTPUT << '\n';
+		}
+	}
+	__bytecode_handler.write_bytecode_handler(INSTRUCTION_END);
+}
+
+//void SEMANTIC_M::parse_funcs() {
+//
+//}
+//
+//void SEMANTIC_M::parse_args() {
+//
+//}
 
 void SEMANTIC_M::run(MAP<int, int>* tokens, VEC<EXPRESSION*>* exp) {
 	parse(tokens, exp);

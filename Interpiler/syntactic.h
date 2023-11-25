@@ -18,3 +18,7 @@ class SYNTACTIC_M {
 public:
 	VEC<EXPRESSION*>* run(MAP<int,int>* tokens);
 };
+
+
+
+							

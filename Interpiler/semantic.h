@@ -8,15 +8,18 @@
 class SEMANTIC_M {
 	bool is_args;
 	bool stack_mode = false;
+	bool loop_mode = false;
+	int iter_code = 0;
+
 
 	// SYNTAX SECTION
 	void parse(MAP<int, int>* tokens, VEC<EXPRESSION*>* exp);
-	void parse_unary();
+	void parse_unary(int op_code, int right_code);
 	void parse_binary(int op_code,int left_code,int right_code);
-	void parse_arr();
-	void parse_funs();
-	void parse_args();
-	void parse_keyword();
+	void parse_arr(int arr_code, int index_code);
+	void parse_keyword(int kyw_code);
+	//void parse_funcs();
+	//void parse_args();
 
 public:
 	void run(MAP<int, int>* tokens, VEC<EXPRESSION*>* exp);

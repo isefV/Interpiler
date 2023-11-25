@@ -86,21 +86,23 @@ int SYNTACTIC_M::syntaxer(int* code, int index, int token_size) {
 			|| TOKEN_IS_KEYWORD(*code, KYW_LOOP)
 			|| TOKEN_IS_KEYWORD(*code, KYW_OUTPUT))
 			&& (index == 0)) {
+			if (TOKEN_IS_KEYWORD(*code, KYW_LOOP))
+				_syntax_flag[0] = true;
 			_keyword = *code;
 			return ACCEPT_ACTION;
 		}
 		else if (TOKEN_IS_KEYWORD(_keyword, KYW_LOOP)
 			&& TOKEN_IS_KEYWORD(*code, KYW_TO)
-			&& (index == 5 || index == 3))
+			&& (index == 5 || index == 3)) {
+			_syntax_flag[1] = true;
 			return ACCEPT_ACTION;
+		}
 		else if (TOKEN_IS_KEYWORD(_keyword, KYW_LOOP)
-			&& TOKEN_IS_KEYWORD(*code, KYW_BY)
-			&& (index == 7 || index == 5))
+			&& TOKEN_IS_KEYWORD(*code, KYW_BY) 
+			&& (index == 7 || index == 5)){
+			_syntax_flag[2] = true;
 			return ACCEPT_ACTION;
-		else if (TOKEN_IS_KEYWORD(_keyword, KYW_LOOP)
-			&& TOKEN_IS_KEYWORD(*code, KYW_BY)
-			&& (index == 7 || index == 5))
-			return ACCEPT_ACTION;
+		}
 		else if (TOKEN_IS_KEYWORD(_keyword, KYW_LOOP)
 			&& (index == 2))
 			return ACCEPT_ACTION;
@@ -249,7 +251,7 @@ int SYNTACTIC_M::parse_priority(int code) {
 		return PRIO_NO;
 
 	if ((code & UPCODE) == COMPONENTS_KEYWORDS) {
-		if ((code & MIDCODE) == KYW_TO) {
+		if ((code & MIDCODE) == KYW_TO){
 			return PRIO_13;
 		}
 		else if ((code & MIDCODE) == KYW_BY) {

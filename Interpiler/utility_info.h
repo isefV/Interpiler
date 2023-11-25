@@ -155,7 +155,6 @@
 
 #define INSTRUCTION_END						0x000
 
-
 //SYNTAX CONSTANT
 #define PRIO_NO -1
 #define PRIO_LEAST 0
@@ -194,5 +193,7 @@
 #define LESS_THAN_ZERO(number,value) if (number - value < 0) __errors_handler.rise_err(ERR_SYNTAX)
 #define TOKEN_IS_KEYWORD(code,type)	(code & (UPCODE + MIDCODE)) == COMPONENTS_KEYWORDS + type
 
-
 extern bool debug_mode;
+extern bool _syntax_flag[];	// 0 - LOOP EXP
+							// 1 - LOOP TO
+							// 2 - LOOP TO BY
