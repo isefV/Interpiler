@@ -9,8 +9,8 @@ int main() {
 	if(debug_mode)
 		PRINT << __command <<'\n';
 
-	MAP<int,int>* tokens = __lexer.run(&__command);
+	VEC<TOKEN*>* tokens = __lexer.run(&__command);
 	VEC<EXPRESSION*>* exp = __syntaxer.run(tokens);
-	__semanticer.run(tokens, exp);
+	//__semanticer.run(tokens, exp);
 	return 0;
 }

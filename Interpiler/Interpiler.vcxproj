@@ -26,6 +26,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="semantic.cpp" />
     <ClCompile Include="syntactic.cpp" />
+    <ClCompile Include="token.cpp" />
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +39,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="semantic.h" />
     <ClInclude Include="syntactic.h" />
+    <ClInclude Include="token.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="utility_info.h" />
   </ItemGroup>

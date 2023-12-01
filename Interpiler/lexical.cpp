@@ -139,10 +139,14 @@ void LEXICAL_M::tokenization() {
 	// CODEED TOKEN COMPONENT
 	for (int index = 0; index < _decomposed_command.size(); index++) {
 
+		TOKEN* token_code = new TOKEN;
 		STRING temp = _decomposed_command.at(index);
-		int code = token_detector(&temp);
+		if (!token_detector(&temp, token_code))
+			PRINT << "ERROR";
+			//errors
 
-		_tokens[index] = code;
+		token_code->set_token_id(index);
+		_tokens.push_back(token_code);
 		//if(code == COMPONENTS_NON)
 			//__errors_handler.rise_err(ERR_TYPE);
 
@@ -152,7 +156,7 @@ void LEXICAL_M::tokenization() {
 	if (debug_mode) {
 		PRINT << "\nTokens:\n";
 		for (auto item = _tokens.begin(); item != _tokens.end(); item++)
-			PRINT << '\t' << std::hex << item->first << '\t' << item->second << '\n';
+			PRINT << '\t' << std::hex << (*item)->get_token() << '\n';
 		PRINT << '\n';
 
 		PRINT << "\Objects:\n";
@@ -166,144 +170,244 @@ void LEXICAL_M::tokenization() {
 
 }
 
-int LEXICAL_M::token_detector(STRING* token) {
-	int code = COMPONENTS_NON;
-
+bool LEXICAL_M::token_detector(STRING* token, TOKEN* token_code) {
+	int code;
 	// IF TOKEN IS KEYWORD_ RETURN 0xZZZ00000 KEYWORD_ CODE
-	if ((code = keyword_detector(token)) != COMPONENTS_NON) {
-		if (code == KYW_TRUE)
-			return set_object(token, (COMPONENTS_LITERALS + TYPE_BOOL));
-		else if (code == KYW_FALSE)
-			return set_object(token, (COMPONENTS_LITERALS + TYPE_BOOL));
+	if ((code = keyword_detector(token, token_code)) != TYPE_NONT) {
+		if (code == KYW_TRUE || code == KYW_FALSE) {
+			token_code->set_token_type(COMPONENTS_LITERALS);
+			token_code->set_token_section(TYPE_BOOL);
+			set_object(token, (COMPONENTS_LITERALS + TYPE_BOOL), token_code);
+			return true;
+		}
 
-		return COMPONENTS_KEYWORDS + code;
+		token_code->set_token_type(COMPONENTS_KEYWORDS);
+		return true;
 	}
 	// IF TOKEN IS OPERATORS RETURN 0xZZZ00000 OPERATOR CODE
-	else if ((code = operator_detector(token)) != OP_NON)
-		return COMPONENTS_OPERATORS + code;
-
+	else if (operator_detector(token, token_code)) {
+		token_code->set_token_type(COMPONENTS_OPERATORS);
+		return true;
+	}
 	// IF TOKEN IS OBJECT_T RETURN 0x4ZZAAAAA IDENTIFIER CODE | 0x3ZZAAAAA LITERALS CODE
-	else if ((code = object_detector(token)) != TYPE_NONT)
-		return code;
+	else if (object_detector(token, token_code))
+		return true;
 
 	// ELSE ITS WRONG SYNTAX
-	return COMPONENTS_NON;
+	return false;
 }
 
-int LEXICAL_M::keyword_detector(STRING* token) {
-	if (*token == "loop")
+int LEXICAL_M::keyword_detector(STRING* token, TOKEN* token_code) {
+	if (*token == "loop") {
+		token_code->set_token_section(KYW_LOOP);
 		return KYW_LOOP;
-	else if (*token == "if")
+	}
+	else if (*token == "if") {
+		token_code->set_token_section(KYW_IF);
 		return KYW_IF;
-	else if (*token == "elf")
+	}
+	else if (*token == "elf") {
+
+		token_code->set_token_section(KYW_ELF);
 		return KYW_ELF;
-	else if (*token == "else")
+	}
+	else if (*token == "else") {
+
+		token_code->set_token_section(KYW_ELSE);
 		return KYW_ELSE;
-	else if (*token == "to")
+	}
+	else if (*token == "to") {
+		token_code->set_token_section(KYW_TO);
 		return KYW_TO;
-	else if (*token == "by")
+	}
+	else if (*token == "by") {
+		token_code->set_token_section(KYW_BY);
 		return KYW_BY;
-	else if (*token == "rutin")
+	}
+	else if (*token == "rutin"){
+		token_code->set_token_section(KYW_RUTIN);
 		return KYW_RUTIN;
-	else if (*token == "ret")
+	}
+	else if (*token == "ret"){
+		token_code->set_token_section(KYW_RET);
 		return KYW_RET;
-	else if (*token == "stop")
+	}
+	else if (*token == "stop"){
+		token_code->set_token_section(KYW_STOP);
 		return KYW_STOP;
-	else if (*token == "next")
+	}
+	else if (*token == "next"){
+		token_code->set_token_section(KYW_NEXT);
 		return KYW_NEXT;
-	else if (*token == "input")
+	}
+	else if (*token == "input"){
+		token_code->set_token_section(KYW_INPUT);
 		return KYW_INPUT;
-	else if (*token == "output")
+	}
+	else if (*token == "output"){
+		token_code->set_token_section(KYW_OUTPUT);
 		return KYW_OUTPUT;
-	else if (*token == "true")
+	}
+	else if (*token == "true") {
+		token_code->set_token_section(KYW_TRUE);
 		return KYW_TRUE;
-	else if (*token == "false")
+	}
+	else if (*token == "false"){
+		token_code->set_token_section(KYW_FALSE);
 		return KYW_FALSE;
+	}
 
 	// ELSE ITS WRONG SYNTAX
 	return TYPE_NONT;
 }
 
-int LEXICAL_M::operator_detector(STRING* token) {
-	if (*token == "=")
-		return OP_ASSIGNMENT + OP_ASN_ASSIGNMENT;
+bool LEXICAL_M::operator_detector(STRING* token, TOKEN* token_code) {
+	if (*token == "=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_ASSIGNMENT);
+		return true;
+	}
 	else if (*token == "^=")
-		return OP_ASSIGNMENT + OP_ASN_POWASSI;
-	else if (*token == "*=")
-		return OP_ASSIGNMENT + OP_ASN_MULASSI;
-	else if (*token == "/=")
-		return OP_ASSIGNMENT + OP_ASN_DIVASSI;
-	else if (*token == "%=")
-		return OP_ASSIGNMENT + OP_ASN_MODASSI;
-	else if (*token == "-=")
-		return OP_ASSIGNMENT + OP_ASN_SUBASSI;
-	else if (*token == "+=")
-		return OP_ASSIGNMENT + OP_ASN_ADDASSI;
-	else if (*token == "#=")
-		return OP_ASSIGNMENT + OP_ASN_ARRASSI;
+	{
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_POWASSI);
+		return true;
+	}
+	else if (*token == "*=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_MULASSI);
+		return true;;
+	}
+	else if (*token == "/=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_DIVASSI);
+		return true;
+	}
+	else if (*token == "%=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_MODASSI);
+		return true;
+	}
+	else if (*token == "-=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_SUBASSI);
+		return true;
+	}
+	else if (*token == "+=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_ADDASSI);
+		return true;
+	}
+	else if (*token == "#=") {
+		token_code->set_token_section(OP_ASSIGNMENT + OP_ASN_ARRASSI);
+		return true;
+	}
 
-	if (*token == "(")
-		return OP_SEPRATOR + OP_SEP_LEFT_PARENTHESE;
-	else if (*token == ")")
-		return OP_SEPRATOR + OP_SEP_RIGHT_PARENTHESE;
-	else if (*token == ".")
-		return OP_SEPRATOR + OP_SEP_DOT;
-	else if (*token == ",")
-		return OP_SEPRATOR + OP_SEP_COMMA;
-	else if (*token == ":")
-		return OP_SEPRATOR + OP_SEP_COLON;
+	if (*token == "(") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_LEFT_PARENTHESE);
+		return true;
+	}
+	else if (*token == ")") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_RIGHT_PARENTHESE);
+		return true;
+	}
+	else if (*token == "[") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_LEFT_BRACKET);
+		return true;
+	}
+	else if (*token == "]") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_RIGHT_BREACKET);
+		return true;
+	}
+	else if (*token == ".") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_DOT);
+		return true;
+	}
+	else if (*token == ",") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_COMMA);
+		return true;
+	}
+	else if (*token == ":") {
+		token_code->set_token_section(OP_SEPRATOR + OP_SEP_COLON);
+		return true;
+	}
 
 
-	if (*token == "!")
-		return OP_LOGICAL + OP_LOG_OPPOSITE;
-	else if (*token == ">")
-		return OP_LOGICAL + OP_LOG_GREATER_THAN;
-	else if (*token == "<")
-		return OP_LOGICAL + OP_LOG_LESS_THAN;
-	else if (*token == "<=")
-		return OP_LOGICAL + OP_LOG_LESS_EQUAL;
-	else if (*token == ">=")
-		return OP_LOGICAL + OP_LOG_GREATER_EQUAL;
-	else if (*token == "!=")
-		return OP_LOGICAL + OP_LOG_NOT_EQUAL;
-	else if (*token == "==")
-		return OP_LOGICAL + OP_LOG_EQUAL;
-	else if (*token == "&")
-		return OP_LOGICAL + OP_LOG_AND;
-	else if (*token == "|")
-		return OP_LOGICAL + OP_LOG_OR;
+
+	if (*token == "!") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_OPPOSITE);
+		return true;
+	}
+	else if (*token == ">") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_GREATER_THAN);
+		return true;
+	}
+	else if (*token == "<") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_LESS_THAN);
+		return true;
+	}
+	else if (*token == "<=") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_LESS_EQUAL);
+		return true;
+	}
+	else if (*token == ">=") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_GREATER_EQUAL);
+		return true;
+	}
+	else if (*token == "!=") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_NOT_EQUAL);
+		return true;
+	}
+	else if (*token == "==") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_EQUAL);
+		return true;
+	}
+	else if (*token == "&") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_AND);
+		return true;
+	}
+	else if (*token == "|") {
+		token_code->set_token_section(OP_LOGICAL + OP_LOG_OR);
+		return true;
+	}
 
 
-	if (*token == "^")
-		return OP_ARITHMETIC + OP_ARI_POW;
-	else if (*token == "*")
-		return OP_ARITHMETIC + OP_ARI_MUL;
-	else if (*token == "/")
-		return OP_ARITHMETIC + OP_ARI_DIV;
-	else if (*token == "%")
-		return OP_ARITHMETIC + OP_ARI_MOD;
-	else if (*token == "-")
-		return OP_ARITHMETIC + OP_ARI_SUB;
-	else if (*token == "+")
-		return OP_ARITHMETIC + OP_ARI_ADD;
+	if (*token == "^"){
+		token_code->set_token_section(OP_ARITHMETIC + OP_ARI_POW);
+		return true;
+	}
+	else if (*token == "*") {
+		token_code->set_token_section(OP_ARITHMETIC + OP_ARI_MUL);
+		return true;
+	}
+	else if (*token == "/") {
+		token_code->set_token_section(OP_ARITHMETIC + OP_ARI_DIV);
+		return true;
+	}
+	else if (*token == "%") {
+		token_code->set_token_section(OP_ARITHMETIC + OP_ARI_MOD);
+		return true;
+	}
+	else if (*token == "-") {
+		token_code->set_token_section(OP_ARITHMETIC + OP_ARI_SUB);
+		return true;
+	}
+	else if (*token == "+") {
+		token_code->set_token_section(OP_ARITHMETIC + OP_ARI_ADD);
+		return true;
+	}
 
-
-	if (*token == "[")
-		return OP_OTHER + OP_OTR_LEFT_BRACKET;
-	else if (*token == "]")
-		return OP_OTHER + OP_OTR_RIGHT_BREACKET;
-	else if (*token == "?")
-			return OP_OTHER + OP_OTR_TYPE;
+	if (*token == "?") {
+		token_code->set_token_section(OP_OTHER + OP_OTR_TYPE);
+		return true;
+	}
 
 	// ELSE ITS WRONG SYNTAX
-	return OP_NON;
+	return false;
 }
 
-int LEXICAL_M::object_detector(STRING* token) {
+bool LEXICAL_M::object_detector(STRING* token, TOKEN* token_code) {
 
 	// IF TOKEN HAVE " | ' OP BEFORE AND AFTER IT HAS STRING TYPE
-	if ( token->at(0) == token->at(token->length() - 1) && token->at(0) == '\'')
-		return set_object(token, (COMPONENTS_LITERALS + TYPE_STR));
+	if (token->at(0) == token->at(token->length() - 1) && token->at(0) == '\'') {
+		token_code->set_token_type(COMPONENTS_IDENTIFIER);
+		token_code->set_token_section(TYPE_STR);
+		set_object(token, (COMPONENTS_LITERALS + TYPE_STR), token_code);
+		return true;
+	}
 
 	bool is_digit = true;
 	char* current_ch = &(*token)[0];
@@ -317,40 +421,49 @@ int LEXICAL_M::object_detector(STRING* token) {
 	}
 
 	// IF ALL TOKEN CHAR IS DIGIT , SO ITS NUMBER TYPE
-	if (is_digit)
-		return set_object(token, (COMPONENTS_LITERALS + TYPE_NUM));
+	if (is_digit) {
+		token_code->set_token_type(COMPONENTS_LITERALS);
+		token_code->set_token_section(TYPE_NUM);
+		set_object(token, (COMPONENTS_LITERALS + TYPE_NUM), token_code);
+		return true;
+	}
 
 	// IF TOKEN ISN'T START WITH NUMBER , ITS IDENTIFIER
-	if (!((*token)[0] > 47 && (*token)[0] < 58))
-		return set_object(token, (COMPONENTS_IDENTIFIER + TYPE_NONT));
+	if (!((*token)[0] > 47 && (*token)[0] < 58)) {
+		token_code->set_token_type(COMPONENTS_IDENTIFIER);
+		token_code->set_token_section(TYPE_NONT);
+		set_object(token, (COMPONENTS_IDENTIFIER + TYPE_NONT), token_code);
+		return true;
+	}
 
 	// ELSE ITS WRONG SYNTAX
-	return TYPE_NONT;
+	return false;
 }
 
-int LEXICAL_M::set_object(STRING* token, int type) {
+bool LEXICAL_M::set_object(STRING* token, int type, TOKEN* token_code) {
 
 	// FIND HASH ID OF STRING FOR SET ID
 	int code_id = object_encoder_id(*token);
+	token_code->set_token_address(code_id);
 
 	// CHECK IF HAS BEEN OBJECT_T CREATE JUST RETURN CODE ID
 	if (__objects_table.find(code_id) != __objects_table.end())
-		return type + __objects_table.at(code_id)->_type + code_id;
+		return false;
 
 	// CREATE NEW ADDRESS
 	void* value = utl_generate_address();
 	int var_type = TYPE_NONT;
 
 	// FOR TYPE OF DATA SET VALUE TO ADDRESS
-	if ((type & MIDCODE_RIGHT) == TYPE_NUM) {
+	if ((type & DEL_LOWER_MIDDLE_CODE) == TYPE_NUM) {
 		(*(float*)value) = atof(&(*token)[0]);
 		var_type = TYPE_NUM;
 	}
-	else if ((type & MIDCODE_RIGHT) == TYPE_BOOL) {
+	else if ((type & DEL_LOWER_MIDDLE_CODE) == TYPE_BOOL) {
 		(*(bool*)value) = *token == "true" ? true : false;
 		var_type = TYPE_BOOL;
 	}
-	else if ((type & MIDCODE_RIGHT) == TYPE_STR) {
+	else if ((type & DEL_LOWER_MIDDLE_CODE) == TYPE_STR) {
 		*(char**)value = utl_set_string(*token);
 		var_type = TYPE_STR;
 	}
@@ -363,11 +476,11 @@ int LEXICAL_M::set_object(STRING* token, int type) {
 
 	__objects_table[code_id] = temp;
 
-	return type + code_id;
+	return true;
 }
 
 // PUBLIC : LEXICAL MACHIN MEMBER FUNCTION
-MAP<int,int>* LEXICAL_M::run(STRING* cmd) {
+VEC<TOKEN*>* LEXICAL_M::run(STRING* cmd) {
 	_command = cmd;
 	tokenization();
 	_decomposed_command.clear();

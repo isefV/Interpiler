@@ -1,22 +1,22 @@
 #pragma once
 #include"utility.h"
+#include"token.h"
 #include"object.h"
 #include"expression.h"
 #include"error_handling.h"
 
 class SYNTACTIC_M {
 	VEC<EXPRESSION*> _exp;
-	int _keyword,_paren_counter,_brac_counter;
+	int _keyword,_size, _paren_counter, _brac_counter;
 	bool is_args;
 
 	// SYNTAX SECTION
-	void parse(MAP<int,int>* token);
-	int syntaxer(int* code, int index, int token_size);
-	int parse_priority(int code);
-	int parse_mode(int code);
-
+	void parse(VEC<TOKEN*>* token);
+	int syntaxer(const int* upcode, const int* upmidcode, const int* lowmidcode);
+	int parse_priority(const int* upcode, const int* upmidcode);
+	int parse_mode(const int* upcode, const int* upmidcode);
 public:
-	VEC<EXPRESSION*>* run(MAP<int,int>* tokens);
+	VEC<EXPRESSION*>* run(VEC<TOKEN*>* tokens);
 };
 
 

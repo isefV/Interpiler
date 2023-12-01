@@ -54,6 +54,9 @@
     <ClCompile Include="bytecode_handling.cpp">
       <Filter>Source Files\Controler</Filter>
     </ClCompile>
+    <ClCompile Include="token.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="error_handling.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="bytecode_handling.h">
       <Filter>Source Files\Controler</Filter>
+    </ClInclude>
+    <ClInclude Include="token.h">
+      <Filter>Source Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
