@@ -1,4 +1,4 @@
-# SpeedyLang
+# Interpiler
 
 Interpiler is a simple yet powerful programming language, inspired by Python, designed for high performance and rapid development. While still in development, Interpiler aims to provide an efficient and easy-to-learn syntax, optimized for speed and scalability through innovative coded instructions.
 
